@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/pflag"
-
 	"gin-base/config"
 	"gin-base/db"
 	"gin-base/pkg/redis"
+	"gin-base/routes"
+
+	"github.com/spf13/pflag"
 )
 
 var (
@@ -29,11 +29,7 @@ func main() {
 	// init redis
 	redis.Setup()
 
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run()
+	// 路由
+	router := routes.Setup()
+	router.Run()
 }
