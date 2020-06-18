@@ -1,19 +1,21 @@
 package redis
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/alicebob/miniredis"
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 )
 
 var (
+	ctx    = context.Background()
 	Client *redis.Client
+	Nil    = redis.Nil
 )
 
 func Setup() {
-	Client := redis.NewClient(&redis.Options{
+	rdb := redis.NewClient(&redis.Options{
 		Addr:     viper.GetString("redis.addr"),
 		Password: viper.GetString("redis.password"),
 		DB:       viper.GetInt("redis.db"),
@@ -22,23 +24,10 @@ func Setup() {
 
 	fmt.Println("redis addr:", viper.GetString("redis.addr"))
 
-	_, err := Client.Ping().Result()
-	if err != nil {
-		panic(err)
-	}
-}
-
-func TestSetup() {
-	mr, err := miniredis.Run()
+	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
 		panic(err)
 	}
 
-	// 打开下面命令可以测试链接关闭的情况
-	// defer mr.Close()
-
-	Client = redis.NewClient(&redis.Options{
-		Addr: mr.Addr(),
-	})
-	fmt.Println("mini redis addr:", mr.Addr())
+	Client = rdb
 }
