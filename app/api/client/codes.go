@@ -27,7 +27,7 @@ func GetPhoneVerifyCode(c *gin.Context) {
 
 	// 验证手机号
 
-	key := fmt.Sprintf("phone:%v", phone)
+	key := fmt.Sprintf("phone:%s", phone)
 
 	_, err := redis.Client.Get(ctx, key).Result()
 	if err == redis.Nil {

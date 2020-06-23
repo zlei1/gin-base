@@ -10,4 +10,5 @@ var (
 	// client errors
 	ParamPhoneEmpty   = &E{Code: 20001, Message: "param phone is empty"}
 	GetPhoneCodeOffen = &E{Code: 20002, Message: "get phone code offen"}
+	ParamCodeEmpty    = &E{Code: 20003, Message: "param code is empty"}
 )
