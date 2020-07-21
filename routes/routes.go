@@ -2,8 +2,11 @@ package routes
 
 import (
 	client_api "gin-base/app/api/client"
+	_ "gin-base/docs"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 )
 
 func Setup() *gin.Engine {
@@ -16,6 +19,9 @@ func Setup() *gin.Engine {
 	// 客户端登入
 	r.GET("/api/client/phone_verify_code", client_api.GetPhoneVerifyCode)
 	r.POST("/api/client/sessions", client_api.Login)
+
+	// swagger
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return r
 }

@@ -7,10 +7,6 @@ import (
 	"gin-base/pkg/e"
 )
 
-// 获取手机验证码
-// parameter
-//   phone
-//   code
 func Login(c *gin.Context) {
 	phone := c.PostForm("phone")
 	if phone == "" {
