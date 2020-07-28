@@ -24,7 +24,7 @@ func main() {
 	defer db.GDB.Close()
 
 	// 数据迁移
-	db.MigrateDB()
+	// db.MigrateDB()
 
 	// init redis
 	redis.Setup()
