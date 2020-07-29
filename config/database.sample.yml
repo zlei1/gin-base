@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username:
+  password:
+
+development:
+  <<: *default
+  database: ginbase
+
+staging:
+  <<: *default
+  database: ginbase_staging
+
+production:
+  <<: *default
+  database: ginbase_production

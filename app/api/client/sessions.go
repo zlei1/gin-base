@@ -1,7 +1,7 @@
 package client
 
 import (
-	"gin-base/app/api/client/helpers"
+	"gin-base/app/api/common/helpers"
 	"github.com/gin-gonic/gin"
 
 	"gin-base/pkg/e"

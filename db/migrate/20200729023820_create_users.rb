@@ -1,6 +1,6 @@
-class CreateAdmins < ActiveRecord::Migration[6.0]
+class CreateUsers < ActiveRecord::Migration[6.0]
   def change
-    create_table :admins, comment: "管理员" do |t|
+    create_table :users, comment: "用户" do |t|
       t.string :code, null: false, comment: "编号"
       t.string :name, null: false, comment: "姓名"
       t.string :phone, null: false, comment: "手机号"
@@ -13,7 +13,7 @@ class CreateAdmins < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
-    add_index :admins, :code, unique: true
-    add_index :admins, :phone, unique: true
+    add_index :users, :code, unique: true
+    add_index :users, :phone, unique: true
   end
 end

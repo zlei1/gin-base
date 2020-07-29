@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
-	"gin-base/app/api/client/helpers"
+	"gin-base/app/api/common/helpers"
 	"github.com/gin-gonic/gin"
 	"time"
 

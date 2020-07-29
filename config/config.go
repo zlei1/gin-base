@@ -26,7 +26,7 @@ func (cfg *Config) read() {
 		viper.SetConfigFile(cfg.Name)
 	} else {
 		viper.AddConfigPath("config/")
-		viper.SetConfigName("config.local")
+		viper.SetConfigName("config")
 	}
 	viper.SetConfigType("yaml")
 
