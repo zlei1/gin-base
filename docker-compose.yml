@@ -1,0 +1,44 @@
+# 官方文档：https://docs.docker.com/compose/compose-file/
+version: "3.7"
+
+services:
+  redis:
+    container_name: 'ginbase_redis'
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./data/redis:/data
+      - ./config/redis.conf:/etc/redis.conf
+    command: redis-server /etc/redis.conf
+
+  postgresql:
+    container_name: "ginbase_postgresql"
+    image: postgres:9.5-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+
+  app:
+    container_name: ginbase_app
+    build:
+      context: .
+      dockerfile: ./docker/golang/Dockerfile
+    links:
+      - postgresql
+      - redis
+    ports:
+      - "8080:8080"
+
+  dbmigrate_app:
+    container_name: ginbase_dbmigrate_app
+    build:
+      context: .
+      dockerfile: ./docker/ruby/Dockerfile
+    environment:
+      - RACK_ENV=development
+    links:
+      - postgresql
