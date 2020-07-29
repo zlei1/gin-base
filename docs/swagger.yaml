@@ -1,5 +1,25 @@
 info:
   contact: {}
   license: {}
-paths: {}
+paths:
+  /api/client/sessions:
+    post:
+      parameters:
+      - description: Phone
+        in: query
+        name: phone
+        required: true
+        type: string
+      - description: Code
+        in: query
+        name: code
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      summary: 用户登入
 swagger: "2.0"

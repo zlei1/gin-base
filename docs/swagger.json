@@ -4,5 +4,37 @@
         "contact": {},
         "license": {}
     },
-    "paths": {}
+    "paths": {
+        "/api/client/sessions": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户登入",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Phone",
+                        "name": "phone",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Code",
+                        "name": "code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
