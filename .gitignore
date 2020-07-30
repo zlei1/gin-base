@@ -15,5 +15,4 @@
 # vendor/
 
 config/config.yaml
-config/config.local.yaml
 config/database.yml

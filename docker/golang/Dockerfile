@@ -1,7 +1,6 @@
 FROM golang:1.14-alpine AS builder
 
 RUN apk add --update --no-cache \
-      git \
       --repository http://mirrors.aliyun.com/alpine/v3.12/community \
       --repository http://mirrors.aliyun.com/alpine/v3.12/main
 
