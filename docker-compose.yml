@@ -32,7 +32,7 @@ services:
       - redis
     ports:
       - "8080:8080"
-    command: sh -c 'dockerize -wait tcp://postgresql:5432 -- ./gin-base'
+    command: sh -c 'dockerize -wait tcp://postgresql:5432 && ./gin-base'
 
   dbmigrate_app:
     container_name: ginbase_dbmigrate_app
@@ -43,3 +43,4 @@ services:
       - RACK_ENV=development
     links:
       - postgresql
+    command: sh -c 'dockerize -wait tcp://postgresql:5432 && rake db:migrate'
