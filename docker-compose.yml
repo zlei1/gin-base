@@ -14,7 +14,7 @@ services:
 
   postgresql:
     container_name: "ginbase_postgresql"
-    image: postgres:9.5-alpine
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
@@ -26,18 +26,19 @@ services:
     container_name: ginbase_app
     build:
       context: .
-      dockerfile: ./docker/golang/Dockerfile
+      dockerfile: ./docker/base/Dockerfile
     links:
       - postgresql
       - redis
     ports:
       - "8080:8080"
+    command: sh -c 'dockerize -wait tcp://postgresql:5432 -- ./gin-base'
 
   dbmigrate_app:
     container_name: ginbase_dbmigrate_app
     build:
       context: .
-      dockerfile: ./docker/ruby/Dockerfile
+      dockerfile: ./docker/dbmigrate/Dockerfile
     environment:
       - RACK_ENV=development
     links:
