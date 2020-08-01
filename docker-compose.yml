@@ -4,7 +4,7 @@ version: "3.7"
 services:
   redis:
     container_name: 'ginbase_redis'
-    image: redis:latest
+    image: redis:6-alpine
     ports:
       - '6379:6379'
     volumes:
@@ -14,7 +14,7 @@ services:
 
   postgresql:
     container_name: "ginbase_postgresql"
-    image: postgres:latest
+    image: postgres:9.5-alpine
     ports:
       - "5432:5432"
     environment:
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/base/Dockerfile
-    links:
+    depends_on:
       - postgresql
       - redis
     ports:
@@ -41,6 +41,6 @@ services:
       dockerfile: ./docker/dbmigrate/Dockerfile
     environment:
       - RACK_ENV=development
-    links:
+    depends_on:
       - postgresql
     command: sh -c 'dockerize -wait tcp://postgresql:5432 && rake db:migrate'
