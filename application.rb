@@ -19,6 +19,12 @@ DatabaseTasks.env = env
 DatabaseTasks.database_configuration = YAML.load_file("#{Application.root}/config/database.yml")
 DatabaseTasks.db_dir = 'db'
 DatabaseTasks.migrations_paths = "#{Application.root}/db/migrate"
+DatabaseTasks.seed_loader = Object.new
+DatabaseTasks.seed_loader.instance_eval do
+  def load_seed
+    load "#{DatabaseTasks.db_dir}/seed.rb"
+  end
+end
 
 task :environment do
   ActiveRecord::Base.configurations = DatabaseTasks.database_configuration
