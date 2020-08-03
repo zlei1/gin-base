@@ -4,7 +4,10 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
+
+	tnet "github.com/toolkits/net"
 )
 
 // 生成随机数
@@ -28,4 +31,21 @@ func GenCommonCode(prefix string, num int) string {
 func GenPhoneCode() string {
 	var charsets string = "1234567890"
 	return randomString(6, charsets)
+}
+
+var (
+	once     sync.Once
+	clientIP = "127.0.0.1"
+)
+
+func GetLocalIP() string {
+	once.Do(func() {
+		ips, _ := tnet.IntranetIP()
+		if len(ips) > 0 {
+			clientIP = ips[0]
+		} else {
+			clientIP = "127.0.0.1"
+		}
+	})
+	return clientIP
 }

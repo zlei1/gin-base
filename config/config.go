@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"log"
 
+	"gin-base/pkg/log"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
@@ -32,7 +32,7 @@ func (cfg *Config) read() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
 
@@ -41,4 +41,21 @@ func (cfg *Config) watch() {
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("Config file changed:", e.Name)
 	})
+}
+
+func SetupLog() {
+	config := log.Config{
+		Writers:    viper.GetString("log.writers"),
+		Level:      viper.GetString("log.level"),
+		File:       viper.GetString("log.file"),
+		WarnFile:   viper.GetString("log.warn_file"),
+		ErrorFile:  viper.GetString("log.error_file"),
+		MaxSize:    viper.GetInt("log.max_size"),
+		MaxBackups: viper.GetInt("log.max_backups"),
+		MaxAge:     viper.GetInt("log.max_age"),
+	}
+	err := log.New(&config, log.InstanceZapLogger)
+	if err != nil {
+		fmt.Printf("setup log err: %v", err)
+	}
 }

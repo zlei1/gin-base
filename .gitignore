@@ -18,3 +18,5 @@ config/config.yaml
 config/database.yml
 
 data
+
+log/*

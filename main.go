@@ -19,6 +19,9 @@ func main() {
 	// init config
 	config.Setup(*cfgPath)
 
+	// init log
+	config.SetupLog()
+
 	// 连接数据库
 	db.OpenDB()
 	defer db.GDB.Close()
