@@ -2,6 +2,7 @@ package routes
 
 import (
 	client_api "gin-base/app/api/client"
+	common_api "gin-base/app/api/common"
 	_ "gin-base/docs"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,9 @@ func Setup() *gin.Engine {
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
+
+	// common
+	r.GET("/api/common/captcha", common_api.GetCaptcha)
 
 	// 客户端登入
 	r.GET("/api/client/phone_verify_code", client_api.GetPhoneVerifyCode)
