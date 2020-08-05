@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	ctx    = context.Background()
+	Ctx    = context.Background()
 	Client *redis.Client
 	Nil    = redis.Nil
 )
@@ -24,7 +24,7 @@ func Setup() {
 
 	fmt.Println("redis addr:", viper.GetString("redis.addr"))
 
-	_, err := rdb.Ping(ctx).Result()
+	_, err := rdb.Ping(Ctx).Result()
 	if err != nil {
 		panic(err)
 	}

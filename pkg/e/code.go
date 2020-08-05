@@ -12,5 +12,8 @@ var (
 	GetPhoneCodeOffen = &E{Code: 20002, Message: "get phone code offen"}
 	ParamCodeEmpty    = &E{Code: 20003, Message: "param code is empty"}
 
-	CaptchaGenError = &E{Code: 20004, Message: "gen captcha error"}
+	CaptchaGenError  = &E{Code: 20004, Message: "gen captcha error"}
+	RedisKeyNotExist = &E{Code: 20005, Message: "redis key not exist"}
+
+	VcodeGetfrequent = &E{Code: 20006, Message: "vcode get frequent"}
 )

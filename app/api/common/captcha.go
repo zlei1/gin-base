@@ -1,4 +1,4 @@
-package captcha
+package common
 
 import (
 	"github.com/gin-gonic/gin"
@@ -11,6 +11,10 @@ import (
 
 var store = base64Captcha.DefaultMemStore
 
+// @Summary 获取图形验证码
+// @Produce application/json
+// @Success 200 {string} json "{"code":200,"message":"ok","data":{"captcha_token": "", "captcha": ""}}"
+// @Router /api/common/captcha [get]
 func GetCaptcha(c *gin.Context) {
 	driver := base64Captcha.NewDriverDigit(
 		80,

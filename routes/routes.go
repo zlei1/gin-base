@@ -19,9 +19,10 @@ func Setup() *gin.Engine {
 
 	// common
 	r.GET("/api/common/captcha", common_api.GetCaptcha)
+	r.GET("/api/common/phone_verify_code", common_api.GetPhoneVerifyCode)
 
 	// 客户端登入
-	r.GET("/api/client/phone_verify_code", client_api.GetPhoneVerifyCode)
+	// r.GET("/api/client/phone_verify_code", client_api.GetPhoneVerifyCode)
 	r.POST("/api/client/sessions", client_api.Login)
 
 	// swagger

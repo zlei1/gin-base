@@ -4,16 +4,6 @@ info:
 paths:
   /api/client/sessions:
     post:
-      parameters:
-      - description: Phone
-        in: query
-        name: phone
-        required: true
-        type: string
-      - description: Code
-        in: query
-        name: code
-        type: integer
       produces:
       - application/json
       responses:
@@ -22,4 +12,31 @@ paths:
           schema:
             type: string
       summary: 用户登入
+  /api/common/captcha:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{"captcha_token": "", "captcha": ""}}'
+          schema:
+            type: string
+      summary: 获取图形验证码
+  /api/common/phone_verify_code:
+    get:
+      parameters:
+      - description: 手机号
+        in: body
+        name: phone
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      summary: 获取手机验证码
 swagger: "2.0"

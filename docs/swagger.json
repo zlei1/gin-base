@@ -11,19 +11,47 @@
                     "application/json"
                 ],
                 "summary": "用户登入",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/common/captcha": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取图形验证码",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"message\":\"ok\",\"data\":{\"captcha_token\": \"\", \"captcha\": \"\"}}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/common/phone_verify_code": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "获取手机验证码",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Phone",
+                        "description": "手机号",
                         "name": "phone",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "Code",
-                        "name": "code",
-                        "in": "query"
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
