@@ -1,8 +1,8 @@
 package request
 
-type PhoneLoginRequest struct {
+type AdminLoginRequest struct {
 	Phone        string `json:"phone"`
-	VerifyCode   string `json:"verify_code"`
+	Password     string `json:"password"`
 	Captcha      string `json:"captcha"`
 	CaptchaToken string `json:"captcha_token"`
 }
