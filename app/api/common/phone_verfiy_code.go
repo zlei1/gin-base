@@ -1,8 +1,6 @@
 package common
 
 import (
-	"errors"
-
 	"github.com/gin-gonic/gin"
 
 	"gin-base/app/api/common/helpers"

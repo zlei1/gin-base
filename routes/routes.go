@@ -5,6 +5,7 @@ import (
 	common_api "gin-base/app/api/common"
 	_ "gin-base/docs"
 
+	"gin-base/routes/middleware"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
@@ -12,6 +13,8 @@ import (
 
 func Setup() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(middleware.RequestLog())
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
