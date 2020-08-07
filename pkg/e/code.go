@@ -21,4 +21,6 @@ var (
 	TokenNotValidYet = &E{Code: 4009, Message: "token not valid yet"}
 	TokenInvalid     = &E{Code: 40010, Message: "token invalid"}
 	TokenNull        = &E{Code: 40011, Message: "need auth token"}
+
+	AdminLoginError = &E{Code: 40013, Message: "管理员账号或密码错误"}
 )

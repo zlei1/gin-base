@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/spf13/pflag"
+
+	"gin-base/app/models"
 	"gin-base/config"
-	"gin-base/db"
 	"gin-base/pkg/redis"
 	"gin-base/routes"
-
-	"github.com/spf13/pflag"
 )
 
 var (
@@ -23,8 +23,8 @@ func main() {
 	config.SetupLog()
 
 	// 连接数据库
-	db.OpenDB()
-	defer db.GDB.Close()
+	models.Setup()
+	defer models.DB.Close()
 
 	// init redis
 	redis.Setup()

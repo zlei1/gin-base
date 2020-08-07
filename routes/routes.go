@@ -29,6 +29,7 @@ func Setup() *gin.Engine {
 	r.GET("/api/common/phone_verify_code", common_api.GetPhoneVerifyCode)
 
 	// admin 管理端
+	r.POST("/api/admin/sessions", admin_api.Login)
 	auth.GET("/api/admin/admins", admin_api.GetAdminList)
 
 	// client 客户端

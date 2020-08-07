@@ -1,4 +1,4 @@
-package db
+package models
 
 import (
 	"fmt"
@@ -8,15 +8,15 @@ import (
 	"github.com/spf13/viper"
 )
 
-var GDB *gorm.DB
+var DB *gorm.DB
 
-func OpenDB() {
-	_config := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+func Setup() {
+	_config := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
 		viper.GetString("pgsql.host"),
 		viper.GetString("pgsql.port"),
 		viper.GetString("pgsql.username"),
-		viper.GetString("pgsql.password"),
 		viper.GetString("pgsql.database"),
+		viper.GetString("pgsql.password"),
 	)
 
 	db, err := gorm.Open("postgres", _config)
@@ -24,5 +24,10 @@ func OpenDB() {
 		panic(err.Error())
 	}
 
-	GDB = db
+	dbConfig(db)
+
+	DB = db
+}
+
+func dbConfig(db *gorm.DB) {
 }
