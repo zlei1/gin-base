@@ -14,7 +14,9 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 查看管理员
-  /api/client/sessions:
+      tags:
+      - admin
+  /api/admin/sessions:
     post:
       parameters:
       - description: 手机号
@@ -37,6 +39,33 @@ paths:
           schema:
             type: string
       summary: 管理员登入
+      tags:
+      - admin
+  /api/client/sessions:
+    post:
+      parameters:
+      - description: 手机号
+        in: body
+        name: phone
+        required: true
+        schema:
+          type: string
+      - description: 手机验证码
+        in: body
+        name: vcode
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      summary: 客户端用户登入
+      tags:
+      - client
   /api/common/captcha:
     get:
       produces:
@@ -47,6 +76,8 @@ paths:
           schema:
             type: string
       summary: 获取图形验证码
+      tags:
+      - common
   /api/common/phone_verify_code:
     get:
       parameters:
@@ -63,4 +94,6 @@ paths:
           schema:
             type: string
       summary: 获取手机验证码
+      tags:
+      - common
 swagger: "2.0"

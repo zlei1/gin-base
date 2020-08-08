@@ -5,11 +5,12 @@ import (
 
 	"gin-base/app/api/common/helpers"
 	"gin-base/app/api/common/helpers/request"
-	"gin-base/app/services"
+	vcode_service "gin-base/app/services/vcode"
 	"gin-base/pkg/e"
 )
 
 // @Summary 获取手机验证码
+// @Tags common
 // @Produce application/json
 // @Param phone query string true "手机号"
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
@@ -18,13 +19,13 @@ func GetPhoneVerifyCode(c *gin.Context) {
 	var param request.PhoneVerifyCodeRequest
 	_ = c.ShouldBindJSON(&param)
 
-	_, err := services.GetVcode(param.Phone)
+	_, err := vcode_service.GetVcode(param.Phone)
 	if err != nil {
 		helpers.SendResponse(c, e.VcodeGetfrequent, nil)
 		return
 	}
 
-	_, err = services.GenVcode(param.Phone)
+	_, err = vcode_service.GenVcode(param.Phone)
 	if err != nil {
 		helpers.SendResponse(c, err, nil)
 		return

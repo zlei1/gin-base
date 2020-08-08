@@ -2,10 +2,12 @@ package models
 
 import (
 	"time"
+
+	"gin-base/pkg/jwt"
 )
 
 type User struct {
-	ID                uint
+	ID                uint64
 	Code              string    `gorm:"column:code" gorm:"comment:'编号'"`
 	Name              string    `gorm:"column:name" gorm:"comment:'姓名'"`
 	Phone             string    `gorm:"column:phone" gorm:"comment:'手机号'"`
@@ -17,4 +19,14 @@ type User struct {
 	Status            int       `gorm:"column:status" gorm:"comment:'状态'"`
 	CreatedAt         time.Time `gorm:"column:created_at" gorm:"comment:'创建时间'"`
 	UpdatedAt         time.Time `gorm:"column:updated_at" gorm:"comment:'修改时间'"`
+}
+
+func (user *User) IssueToken() (token string, err error) {
+	j := jwt.JwtContext{
+		UserID: user.ID,
+	}
+
+	token, err = jwt.IssueToken(j)
+
+	return
 }

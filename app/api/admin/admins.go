@@ -7,6 +7,7 @@ import (
 )
 
 // @Summary 查看管理员
+// @Tags admin
 // @Produce json
 // @Security ApiKeyAuth
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"

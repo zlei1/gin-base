@@ -12,6 +12,7 @@ import (
 var store = base64Captcha.DefaultMemStore
 
 // @Summary 获取图形验证码
+// @Tags common
 // @Produce application/json
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{"captcha_token": "", "captcha": ""}}"
 // @Router /api/common/captcha [get]

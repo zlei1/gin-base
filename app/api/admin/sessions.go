@@ -7,18 +7,19 @@ import (
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
 	"gin-base/app/api/common/helpers"
-	services "gin-base/app/services/admin"
+	admin_service "gin-base/app/services/admin"
 	"gin-base/pkg/e"
 )
 
 var validate = validator.New()
 
 // @Summary 管理员登入
+// @Tags admin
 // @Produce json
 // @Param phone body string true "手机号"
 // @Param password body string true "密码"
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
-// @Router /api/client/sessions [post]
+// @Router /api/admin/sessions [post]
 func Login(c *gin.Context) {
 	var req = request.AdminLoginRequest{}
 	_ = c.ShouldBindJSON(&req)
@@ -29,7 +30,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	admin, err := services.AdminLogin(&req)
+	admin, err := admin_service.AdminLogin(&req)
 	if err != nil {
 		helpers.SendResponse(c, e.AdminLoginError, nil)
 		return

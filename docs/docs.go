@@ -35,6 +35,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "admin"
+                ],
                 "summary": "查看管理员",
                 "responses": {
                     "200": {
@@ -46,10 +49,13 @@ var doc = `{
                 }
             }
         },
-        "/api/client/sessions": {
+        "/api/admin/sessions": {
             "post": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "admin"
                 ],
                 "summary": "管理员登入",
                 "parameters": [
@@ -82,10 +88,52 @@ var doc = `{
                 }
             }
         },
+        "/api/client/sessions": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "client"
+                ],
+                "summary": "客户端用户登入",
+                "parameters": [
+                    {
+                        "description": "手机号",
+                        "name": "phone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "手机验证码",
+                        "name": "vcode",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/common/captcha": {
             "get": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "common"
                 ],
                 "summary": "获取图形验证码",
                 "responses": {
@@ -102,6 +150,9 @@ var doc = `{
             "get": {
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "common"
                 ],
                 "summary": "获取手机验证码",
                 "parameters": [
