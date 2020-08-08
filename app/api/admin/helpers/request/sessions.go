@@ -1,6 +1,6 @@
 package request
 
 type AdminLoginRequest struct {
-	Phone    string `json:"phone" form:"phone" binding:"required`
-	Password string `json:"password" form:"password" binding:"required`
+	Phone    string `json:"phone" form:"phone" validate:"required"`
+	Password string `json:"password" form:"password" validate:"required"`
 }

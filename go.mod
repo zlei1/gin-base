@@ -7,6 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/gin-gonic/gin v1.6.3
+	github.com/go-playground/validator/v10 v10.2.0
 	github.com/go-redis/redis/v8 v8.0.0-beta.7
 	github.com/jinzhu/gorm v1.9.15
 	github.com/mojocn/base64Captcha v1.3.1

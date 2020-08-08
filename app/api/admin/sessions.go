@@ -2,6 +2,7 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
@@ -10,6 +11,8 @@ import (
 	"gin-base/pkg/e"
 )
 
+var validate = validator.New()
+
 // @Summary 管理员登入
 // @Produce json
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
@@ -17,6 +20,12 @@ import (
 func Login(c *gin.Context) {
 	var req = request.AdminLoginRequest{}
 	_ = c.ShouldBindJSON(&req)
+
+	err := validate.Struct(&req)
+	if err != nil {
+		helpers.SendResponse(c, err, nil)
+		return
+	}
 
 	admin, err := services.AdminLogin(&req)
 	if err != nil {
