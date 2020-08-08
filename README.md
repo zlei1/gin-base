@@ -1,1 +1,1 @@
-# build gin development template by zlei1
+# build gin development template
