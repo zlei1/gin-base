@@ -15,6 +15,8 @@ var validate = validator.New()
 
 // @Summary 管理员登入
 // @Produce json
+// @Param phone body string true "手机号"
+// @Param password body string true "密码"
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
 // @Router /api/client/sessions [post]
 func Login(c *gin.Context) {

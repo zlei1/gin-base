@@ -2,8 +2,8 @@ info:
   contact: {}
   license: {}
 paths:
-  /api/client/sessions:
-    post:
+  /api/admin/admins:
+    get:
       produces:
       - application/json
       responses:
@@ -11,7 +11,32 @@ paths:
           description: '{"code":200,"message":"ok","data":{}}'
           schema:
             type: string
-      summary: 用户登入
+      security:
+      - ApiKeyAuth: []
+      summary: 查看管理员
+  /api/client/sessions:
+    post:
+      parameters:
+      - description: 手机号
+        in: body
+        name: phone
+        required: true
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      summary: 管理员登入
   /api/common/captcha:
     get:
       produces:
@@ -26,11 +51,10 @@ paths:
     get:
       parameters:
       - description: 手机号
-        in: body
+        in: query
         name: phone
         required: true
-        schema:
-          type: string
+        type: string
       produces:
       - application/json
       responses:

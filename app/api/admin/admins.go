@@ -8,8 +8,9 @@ import (
 
 // @Summary 查看管理员
 // @Produce json
+// @Security ApiKeyAuth
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
-// @Router /api/client/sessions [post]
+// @Router /api/admin/admins [get]
 func GetAdminList(c *gin.Context) {
 	helpers.SendResponse(c, nil, nil)
 }

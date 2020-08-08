@@ -11,7 +11,7 @@ import (
 
 // @Summary 获取手机验证码
 // @Produce application/json
-// @Param phone body string true "手机号"
+// @Param phone query string true "手机号"
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
 // @Router /api/common/phone_verify_code [get]
 func GetPhoneVerifyCode(c *gin.Context) {

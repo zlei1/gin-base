@@ -25,12 +25,53 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/admin/admins": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查看管理员",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/client/sessions": {
             "post": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "用户登入",
+                "summary": "管理员登入",
+                "parameters": [
+                    {
+                        "description": "手机号",
+                        "name": "phone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "密码",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
@@ -65,13 +106,11 @@ var doc = `{
                 "summary": "获取手机验证码",
                 "parameters": [
                     {
+                        "type": "string",
                         "description": "手机号",
                         "name": "phone",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
