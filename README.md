@@ -1,1 +1,1 @@
-# gin-base
+# build gin development template by zlei1
