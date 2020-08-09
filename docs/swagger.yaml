@@ -16,6 +16,59 @@ paths:
       summary: 查看管理员
       tags:
       - admin
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 创建管理员
+      tags:
+      - admin
+  /api/admin/admins/:code:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 删除管理员
+      tags:
+      - admin
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 查看管理员详情
+      tags:
+      - admin
+    put:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code":200,"message":"ok","data":{}}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 修改管理员
+      tags:
+      - admin
   /api/admin/sessions:
     post:
       parameters:

@@ -30,7 +30,7 @@ func Setup() *gin.Engine {
 
 	// admin 管理端
 	r.POST("/api/admin/sessions", admin_api.Login)
-	auth.GET("/api/admin/admins", admin_api.GetAdminList)
+	auth.GET("/api/admin/admins", admin_api.IndexAdmin)
 
 	// client 客户端
 	r.POST("/api/client/sessions", client_api.Login)

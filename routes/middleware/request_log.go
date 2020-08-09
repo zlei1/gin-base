@@ -3,6 +3,7 @@ package middleware
 import (
 	"bytes"
 	"io/ioutil"
+	"regexp"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,11 @@ func RequestLog() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		reqStartAt := time.Now().UTC()
 		reqPath := c.Request.URL.Path
+
+		reg := regexp.MustCompile("(/swagger|api/admin/sessions|api/client/sessions)")
+		if reg.MatchString(reqPath) {
+			return
+		}
 
 		var bodyBytes []byte
 		if c.Request.Body != nil {

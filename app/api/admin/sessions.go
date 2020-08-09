@@ -6,8 +6,8 @@ import (
 
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
+	admin_service "gin-base/app/api/admin/helpers/services"
 	"gin-base/app/api/common/helpers"
-	admin_service "gin-base/app/services/admin"
 	"gin-base/pkg/e"
 )
 

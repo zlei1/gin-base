@@ -1,4 +1,4 @@
-package user
+package services
 
 import (
 	"gin-base/app/api/client/helpers/request"
