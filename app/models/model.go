@@ -10,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func Setup() {
+func Setup() *gorm.DB {
 	_config := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
 		viper.GetString("pgsql.host"),
 		viper.GetString("pgsql.port"),
@@ -27,6 +27,8 @@ func Setup() {
 	dbConfig(db)
 
 	DB = db
+
+	return db
 }
 
 func dbConfig(db *gorm.DB) {

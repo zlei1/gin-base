@@ -3,9 +3,7 @@ package main
 import (
 	"github.com/spf13/pflag"
 
-	"gin-base/app/models"
 	"gin-base/config"
-	"gin-base/pkg/redis"
 	"gin-base/routes"
 )
 
@@ -16,20 +14,10 @@ var (
 func main() {
 	pflag.Parse()
 
-	// init config
-	config.Setup(*cfgPath)
+	conf := config.Setup(*cfgPath)
+	app := Setup(conf)
+	defer app.DB.Close()
 
-	// init log
-	config.SetupLog()
-
-	// 连接数据库
-	models.Setup()
-	defer models.DB.Close()
-
-	// init redis
-	redis.Setup()
-
-	// 路由
 	router := routes.Setup()
 	router.Run()
 }

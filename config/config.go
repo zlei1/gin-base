@@ -3,27 +3,71 @@ package config
 import (
 	"fmt"
 
-	"gin-base/pkg/log"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
 
-type Config struct {
+type ConfigFile struct {
 	Name string
 }
 
-func Setup(cfgPath string) {
-	c := Config{
+type Config struct {
+	App   AppConfig
+	Log   LogConfig
+	Pgsql PgsqlConfig
+	Redis RedisConfig
+}
+
+type AppConfig struct {
+	Name    string
+	RunMode string
+	Port    string
+	Host    string
+	Secret  string
+}
+
+type LogConfig struct {
+	Writers    string
+	File       string
+	WarnFile   string
+	ErrorFile  string
+	MaxSize    int
+	MaxBackups int
+	MaxAge     int
+}
+
+type PgsqlConfig struct {
+	Host     string
+	Database string
+	Username string
+	Password string
+	Port     string
+}
+
+type RedisConfig struct {
+	Addr         string
+	Password     string
+	Db           int
+	DialTimeout  int
+	ReadTimeout  int
+	WriteTimeout int
+	PoolSize     int
+}
+
+func Setup(cfgPath string) *Config {
+	f := ConfigFile{
 		Name: cfgPath,
 	}
 
-	c.read()
-	c.watch()
+	config := f.read()
+	f.watch()
+
+	return config
 }
 
-func (cfg *Config) read() {
-	if cfg.Name != "" {
-		viper.SetConfigFile(cfg.Name)
+func (f *ConfigFile) read() *Config {
+	if f.Name != "" {
+		viper.SetConfigFile(f.Name)
 	} else {
 		viper.AddConfigPath("config/")
 		viper.SetConfigName("config")
@@ -34,28 +78,19 @@ func (cfg *Config) read() {
 	if err != nil {
 		panic(err)
 	}
+
+	config := new(Config)
+	err = viper.Unmarshal(&config)
+	if err != nil {
+		panic(err)
+	}
+
+	return config
 }
 
-func (cfg *Config) watch() {
+func (f *ConfigFile) watch() {
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("Config file changed:", e.Name)
 	})
-}
-
-func SetupLog() {
-	config := log.Config{
-		Writers:    viper.GetString("log.writers"),
-		Level:      viper.GetString("log.level"),
-		File:       viper.GetString("log.file"),
-		WarnFile:   viper.GetString("log.warn_file"),
-		ErrorFile:  viper.GetString("log.error_file"),
-		MaxSize:    viper.GetInt("log.max_size"),
-		MaxBackups: viper.GetInt("log.max_backups"),
-		MaxAge:     viper.GetInt("log.max_age"),
-	}
-	err := log.New(&config, log.InstanceZapLogger)
-	if err != nil {
-		fmt.Printf("setup log err: %v", err)
-	}
 }

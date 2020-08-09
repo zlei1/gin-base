@@ -14,7 +14,7 @@ var (
 	Nil    = redis.Nil
 )
 
-func Setup() {
+func Setup() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     viper.GetString("redis.addr"),
 		Password: viper.GetString("redis.password"),
@@ -30,4 +30,6 @@ func Setup() {
 	}
 
 	Client = rdb
+
+	return rdb
 }
