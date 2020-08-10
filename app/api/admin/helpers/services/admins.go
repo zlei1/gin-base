@@ -2,6 +2,7 @@ package services
 
 import (
 	"gin-base/app/api/admin/helpers/request"
+	"gin-base/app/api/admin/helpers/response"
 	"gin-base/app/models"
 )
 
@@ -16,6 +17,14 @@ func AdminLogin(req *request.AdminLoginRequest) (admin *models.Admin, err error)
 
 // 管理员列表
 func GetIndexAdmin(req *request.IndexAdminRequest) (list interface{}, total int, err error) {
+	if req.PerPage < 1 {
+		req.PerPage = 25
+	}
+
+	if req.Page < 1 {
+		req.Page = 1
+	}
+
 	limit := req.PerPage
 	offset := req.PerPage * (req.Page - 1)
 
@@ -24,5 +33,15 @@ func GetIndexAdmin(req *request.IndexAdminRequest) (list interface{}, total int,
 
 	err = db.Count(&total).Error
 	err = db.Limit(limit).Offset(offset).Find(&items).Error
-	return items, total, err
+
+	var data []response.IndexAdminResponse
+	for _, item := range items {
+		data = append(data, response.IndexAdminResponse{
+			Code:  item.Code,
+			Name:  item.Name,
+			Phone: item.Phone,
+		})
+	}
+
+	return data, total, err
 }
