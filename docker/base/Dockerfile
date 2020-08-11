@@ -31,4 +31,4 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 
 WORKDIR /deploy
 COPY --from=builder /app/gin-base .
-COPY config ./config
+COPY config/config.sample.yaml ./config/config.yml

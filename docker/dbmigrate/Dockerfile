@@ -23,6 +23,6 @@ RUN bundle config --global frozen 1 \
 COPY application.rb .
 COPY Rakefile .
 
-COPY config/database.yml config/
+COPY config/database.sample.yml config/database.yml
 
 COPY db/migrate db/migrate
