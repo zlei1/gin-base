@@ -27,3 +27,20 @@ pgsql:
   username: 'postgres'
   password: ''
   port: '5432'
+ampq:
+  consume:
+    addr: "localhost:5672"
+    username: "guest"
+    password: "guest"
+    exchange: "default_exchange"
+    routing_key: "default_routing"
+    queue: "default_queue"
+    channel_range: 20
+  publish:
+    addr: "localhost:5672"
+    username: "guest"
+    password: "guest"
+    exchange: "default_exchange"
+    routing_key: "default_routing"
+    queue: "default_queue"
+    channel_range: 20

@@ -9,6 +9,7 @@ import (
 	"gin-base/config"
 	"gin-base/pkg/global"
 	"gin-base/pkg/log"
+	"gin-base/pkg/rabbitmq"
 	"gin-base/routes"
 )
 
@@ -22,6 +23,8 @@ func main() {
 	conf := config.Setup(*cfgPath)
 	app := global.Setup(conf)
 	defer app.DB.Close()
+
+	rabbitmq.Setup()
 
 	logConfig := log.Config{
 		Writers:    viper.GetString("log.writers"),
