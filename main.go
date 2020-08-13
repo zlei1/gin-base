@@ -25,6 +25,10 @@ func main() {
 	defer app.DB.Close()
 
 	rabbitmq.Setup()
+	defer rabbitmq.ConsumeConn.Close()
+	defer rabbitmq.ConsumeChannel.Close()
+	defer rabbitmq.PublishConn.Close()
+	defer rabbitmq.PublishChannel.Close()
 
 	logConfig := log.Config{
 		Writers:    viper.GetString("log.writers"),

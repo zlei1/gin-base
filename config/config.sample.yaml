@@ -32,15 +32,13 @@ ampq:
     addr: "localhost:5672"
     username: "guest"
     password: "guest"
-    exchange: "default_exchange"
-    routing_key: "default_routing"
-    queue: "default_queue"
-    channel_range: 20
+    exchange: "hello"
+    routing_key: "hello"
+    queue: "hello"
   publish:
     addr: "localhost:5672"
     username: "guest"
     password: "guest"
-    exchange: "default_exchange"
-    routing_key: "default_routing"
-    queue: "default_queue"
-    channel_range: 20
+    exchange: "hello"
+    routing_key: "hello"
+    queue: "hello"

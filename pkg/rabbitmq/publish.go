@@ -1,40 +1,30 @@
 package rabbitmq
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
 
 	"gin-base/pkg/log"
 )
 
-func MqPublish(msg interface{}) {
+func MqPublish(body string) {
 	if PublishChannel == nil {
 		PublishStart()
-	}
-
-	publishContent, err := json.Marshal(msg)
-	if err != nil {
-		log.Error("MqPublish Marshal err: %v", err)
-
-		return
 	}
 
 	exchange := viper.GetString("ampq.publish.exchange")
 	routingKey := viper.GetString("ampq.publish.routingKey")
 
-	err = PublishChannel.Publish(exchange, routingKey, false, false, amqp.Publishing{
+	err := PublishChannel.Publish(exchange, routingKey, false, false, amqp.Publishing{
 		ContentType: "text/plain",
-		Body:        publishContent,
+		Body:        []byte(body),
 	})
 
 	if err != nil {
-		log.Error("MqPublish err: %v", err)
+		log.Error("MqPublish Failed: %s", err)
 
 		return
 	}
 
-	fmt.Println("MqPublish success")
+	log.Info("MqPublish Succeed")
 }

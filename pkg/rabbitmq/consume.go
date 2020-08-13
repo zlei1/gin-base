@@ -1,16 +1,10 @@
 package rabbitmq
 
 import (
-	"fmt"
-	"sync"
+	"log"
 
 	"github.com/spf13/viper"
-	"github.com/streadway/amqp"
-
-	"gin-base/pkg/log"
 )
-
-var ConsumeWait *sync.WaitGroup
 
 func MqConsume() {
 	if ConsumeChannel == nil {
@@ -19,32 +13,34 @@ func MqConsume() {
 
 	err := ConsumeChannel.Qos(1, 0, true)
 	if err != nil {
-		log.Error("MqConsume Qos失败 err: %v", err)
-
-		return
+		log.Fatalf("MqConsume Qos Failed: %s", err)
 	}
 
 	queue := viper.GetString("ampq.consume.queue")
-	msgs, err := ConsumeChannel.Consume(queue, "", false, false, false, false, nil)
+	msgs, err := ConsumeChannel.Consume(
+		queue, // queue
+		"",    // consumer
+		false, // auto-ack
+		false, // exclusive
+		false, // no-local
+		false, // no-wait
+		nil,   // args
+	)
 	if err != nil {
-		log.Error("MqConsume 接收消息失败 err: %v", err)
+		log.Fatalf("MqConsume Failed to register a consumer: %s", err)
 
 		return
 	}
 
-	ConsumeWait = new(sync.WaitGroup)
-	for i := 0; i < viper.GetInt("ampq.consume.channel_range"); i++ {
-		ConsumeWait.Add(1)
-		go rangeChannel(msgs)
-	}
-	ConsumeWait.Wait()
-}
+	forever := make(chan bool)
 
-func rangeChannel(msgs <-chan amqp.Delivery) {
-	defer ConsumeWait.Done()
-	for msg := range msgs {
-		fmt.Println("msg: %v", msg.Body)
+	go func() {
+		for msg := range msgs {
+			log.Printf("MqConsume Received a message: %s", msg.Body)
+			msg.Ack(false)
+		}
+	}()
 
-		msg.Ack(false)
-	}
+	log.Printf("MqConsume Waiting for messages. To exit press CTRL+C")
+	<-forever
 }

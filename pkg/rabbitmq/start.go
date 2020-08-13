@@ -2,15 +2,13 @@ package rabbitmq
 
 import (
 	"fmt"
-	"sync"
-	"time"
+	"log"
 
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
 )
 
 var (
-	MqWait         *sync.WaitGroup
 	ConsumeConn    *amqp.Connection
 	ConsumeChannel *amqp.Channel
 	PublishConn    *amqp.Connection
@@ -28,45 +26,35 @@ func ConsumeStart() {
 	exchange := viper.GetString("ampq.consume.exchange")
 	err := ConsumeChannel.ExchangeDeclare(exchange, "direct", true, false, false, false, nil)
 	if err != nil {
-		fmt.Println("rabbitmq ConsumeStart exchange: %v err: %v", exchange, err)
-		ConsumeChannel.Close()
-		ConsumeConn.Close()
-		time.Sleep(3 * time.Second)
-		go ConsumeStart()
-		return
+		log.Fatalf("%s: %s", "ConsumeStart Failed to declare exchange", err)
 	}
 
 	queue := viper.GetString("ampq.consume.queue")
-	_, err = ConsumeChannel.QueueDeclare(queue, true, false, false, false, nil)
+	_, err = ConsumeChannel.QueueDeclare(
+		queue, // name
+		true,  // durable
+		false, // delete when unused
+		false, // exclusive
+		false, // no-wait
+		nil,   // arguments
+	)
 	if err != nil {
-		fmt.Println("rabbitmq ConsumeStart queue: %v err: %v", queue, err)
-		ConsumeChannel.Close()
-		ConsumeConn.Close()
-		time.Sleep(3 * time.Second)
-		go ConsumeStart()
-		return
+		log.Fatalf("%s: %s", "ConsumeStart Failed to declare queue", err)
 	}
 
 	routingKey := viper.GetString("ampq.consume.queue")
 	err = ConsumeChannel.QueueBind(queue, routingKey, exchange, false, nil)
 	if err != nil {
-		fmt.Println("rabbitmq ConsumeStart routingKey: %v err: %v", routingKey, err)
-		ConsumeChannel.Close()
-		ConsumeConn.Close()
-		time.Sleep(3 * time.Second)
-		go ConsumeStart()
-		return
+		log.Fatalf("%s: %s", "ConsumeStart Failed to bind queue", err)
 	}
 
 	fmt.Println("rabbitmq ConsumeStart 完成")
 
-	MqWait = new(sync.WaitGroup)
-	MqWait.Add(1)
 	go MqConsume()
 }
 
 func ConsumeConnect() {
-	fmt.Println("rabbitmq ConsumeConnect 开始连接")
+	log.Println("ConsumeConnect 开始连接")
 
 	var err error
 
@@ -76,65 +64,66 @@ func ConsumeConnect() {
 		viper.GetString("ampq.consume.addr"),
 	)
 
-do:
 	ConsumeConn, err = amqp.Dial(rabbitmqUrl)
 	if err != nil {
-		fmt.Println("rabbitmq ConsumeConnect 连接失败 err: %v", err)
-		time.Sleep(3 * time.Second)
-		goto do
-	}
-	ConsumeChannel, err = ConsumeConn.Channel()
-	if err != nil {
-		fmt.Println("rabbitmq ConsumeConnect 打开channel失败 err = %v", err)
-		ConsumeConn.Close()
-		time.Sleep(3 * time.Second)
-		goto do
+		log.Fatalf("%s: %s", "ConsumeConnect Failed to connect to RabbitMQ", err)
 	}
 
-	fmt.Println("rabbitmq ConsumeConnect 连接完成")
+	ConsumeChannel, err = ConsumeConn.Channel()
+	if err != nil {
+		log.Fatalf("%s: %s", "ConsumeConnect Failed to open a channel", err)
+	}
+
+	log.Println("ConsumeConnect 连接完成")
 }
 
 func PublishStart() {
 	PublishConnect()
 
 	exchange := viper.GetString("ampq.publish.exchange")
-	err := PublishChannel.ExchangeDeclare(exchange, "direct", true, false, false, false, nil)
+	err := PublishChannel.ExchangeDeclare(
+		exchange, // name
+		"direct", // type
+		true,     // durable
+		false,    // auto-deleted
+		false,    // internal
+		false,    // no-wait
+		nil,      // arguments
+	)
 	if err != nil {
-		fmt.Println("rabbitmq PublishStart exchange: %v err: %v", exchange, err)
-		PublishChannel.Close()
-		PublishConn.Close()
-		time.Sleep(3 * time.Second)
-		go PublishStart()
-		return
+		log.Fatalf("%s: %s", "PublishStart Failed to declare exchange", err)
 	}
 
 	queue := viper.GetString("ampq.publish.queue")
-	_, err = PublishChannel.QueueDeclare(queue, true, false, false, false, nil)
+	_, err = PublishChannel.QueueDeclare(
+		queue, // name
+		true,  // durable
+		false, // delete when unused
+		false, // exclusive
+		false, // no-wait
+		nil,   // arguments
+	)
 	if err != nil {
-		fmt.Println("rabbitmq PublishStart queue: %v err: %v", queue, err)
-		PublishChannel.Close()
-		PublishConn.Close()
-		time.Sleep(3 * time.Second)
-		go PublishStart()
-		return
+		log.Fatalf("%s: %s", "PublishStart Failed to declare queue", err)
 	}
 
-	routingKey := viper.GetString("ampq.publish.queue")
-	err = PublishChannel.QueueBind(queue, routingKey, exchange, false, nil)
+	routingKey := viper.GetString("ampq.publish.routingKey")
+	err = PublishChannel.QueueBind(
+		queue,
+		routingKey,
+		exchange,
+		false,
+		nil,
+	)
 	if err != nil {
-		fmt.Println("rabbitmq ConsumeStart routingKey: %v err: %v", routingKey, err)
-		PublishChannel.Close()
-		PublishConn.Close()
-		time.Sleep(3 * time.Second)
-		go PublishStart()
-		return
+		log.Fatalf("%s: %s", "PublishStart Failed to bind queue", err)
 	}
 
-	fmt.Println("rabbitmq PublishStart 完成")
+	log.Println("rabbitmq PublishStart 完成")
 }
 
 func PublishConnect() {
-	fmt.Println("rabbitmq PublishConnect 开始连接")
+	log.Println("PublishConnect 开始连接")
 
 	var err error
 
@@ -144,20 +133,15 @@ func PublishConnect() {
 		viper.GetString("ampq.publish.addr"),
 	)
 
-do:
 	PublishConn, err = amqp.Dial(rabbitmqUrl)
 	if err != nil {
-		fmt.Println("rabbitmq PublishConnect 连接失败 err: %v", err)
-		time.Sleep(3 * time.Second)
-		goto do
-	}
-	PublishChannel, err = PublishConn.Channel()
-	if err != nil {
-		fmt.Println("rabbitmq PublishConnect 打开channel失败 err = %v", err)
-		PublishConn.Close()
-		time.Sleep(3 * time.Second)
-		goto do
+		log.Fatalf("%s: %s", "PublishConnect Failed to connect to RabbitMQ", err)
 	}
 
-	fmt.Println("rabbitmq PublishConnect 连接完成")
+	PublishChannel, err = PublishConn.Channel()
+	if err != nil {
+		log.Fatalf("%s: %s", "PublishConnect Failed to open a channel", err)
+	}
+
+	log.Println("PublishConnect 连接完成")
 }
