@@ -22,12 +22,23 @@ services:
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
 
+  rabbitmq:
+    container_name: "ginbase_rabbitmq"
+    image: rabbitmq:3.8-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ./data/rabbitmq/etc:/etc/rabbitmq
+      - ./data/rabbitmq/data:/var/lib/rabbitmq
+
   app:
     container_name: ginbase_app
     build:
       context: .
       dockerfile: ./docker/base/Dockerfile
     depends_on:
+      - rabbitmq
       - postgresql
       - redis
     ports:

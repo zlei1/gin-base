@@ -3,6 +3,7 @@ package rabbitmq
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
@@ -48,14 +49,12 @@ func ConsumeStart() {
 		log.Fatalf("%s: %s", "ConsumeStart Failed to bind queue", err)
 	}
 
-	fmt.Println("rabbitmq ConsumeStart 完成")
+	log.Println("rabbitmq ConsumeStart Succeed")
 
 	go MqConsume()
 }
 
 func ConsumeConnect() {
-	log.Println("ConsumeConnect 开始连接")
-
 	var err error
 
 	rabbitmqUrl := fmt.Sprintf("amqp://%s:%s@%s/",
@@ -64,17 +63,18 @@ func ConsumeConnect() {
 		viper.GetString("ampq.consume.addr"),
 	)
 
+do:
 	ConsumeConn, err = amqp.Dial(rabbitmqUrl)
 	if err != nil {
-		log.Fatalf("%s: %s", "ConsumeConnect Failed to connect to RabbitMQ", err)
+		log.Println("%s: %v", "ConsumeConnect Failed to connect to RabbitMQ", err)
+		time.Sleep(3 * time.Second)
+		goto do
 	}
 
 	ConsumeChannel, err = ConsumeConn.Channel()
 	if err != nil {
-		log.Fatalf("%s: %s", "ConsumeConnect Failed to open a channel", err)
+		log.Fatalf("%s: %v", "ConsumeConnect Failed to open a channel", err)
 	}
-
-	log.Println("ConsumeConnect 连接完成")
 }
 
 func PublishStart() {
@@ -91,7 +91,7 @@ func PublishStart() {
 		nil,      // arguments
 	)
 	if err != nil {
-		log.Fatalf("%s: %s", "PublishStart Failed to declare exchange", err)
+		log.Fatalf("%s: %v", "PublishStart Failed to declare exchange", err)
 	}
 
 	queue := viper.GetString("ampq.publish.queue")
@@ -104,7 +104,7 @@ func PublishStart() {
 		nil,   // arguments
 	)
 	if err != nil {
-		log.Fatalf("%s: %s", "PublishStart Failed to declare queue", err)
+		log.Fatalf("%s: %v", "PublishStart Failed to declare queue", err)
 	}
 
 	routingKey := viper.GetString("ampq.publish.routingKey")
@@ -116,15 +116,13 @@ func PublishStart() {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("%s: %s", "PublishStart Failed to bind queue", err)
+		log.Fatalf("%s: %v", "PublishStart Failed to bind queue", err)
 	}
 
-	log.Println("rabbitmq PublishStart 完成")
+	log.Println("rabbitmq PublishStart Succeed")
 }
 
 func PublishConnect() {
-	log.Println("PublishConnect 开始连接")
-
 	var err error
 
 	rabbitmqUrl := fmt.Sprintf("amqp://%s:%s@%s/",
@@ -133,15 +131,16 @@ func PublishConnect() {
 		viper.GetString("ampq.publish.addr"),
 	)
 
+do:
 	PublishConn, err = amqp.Dial(rabbitmqUrl)
 	if err != nil {
-		log.Fatalf("%s: %s", "PublishConnect Failed to connect to RabbitMQ", err)
+		log.Println("%s: %s", "PublishConnect Failed to connect to RabbitMQ", err)
+		time.Sleep(3 * time.Second)
+		goto do
 	}
 
 	PublishChannel, err = PublishConn.Channel()
 	if err != nil {
 		log.Fatalf("%s: %s", "PublishConnect Failed to open a channel", err)
 	}
-
-	log.Println("PublishConnect 连接完成")
 }

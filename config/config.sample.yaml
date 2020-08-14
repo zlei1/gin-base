@@ -29,14 +29,14 @@ pgsql:
   port: '5432'
 ampq:
   consume:
-    addr: "localhost:5672"
+    addr: "rabbitmq:5672"
     username: "guest"
     password: "guest"
     exchange: "hello"
     routing_key: "hello"
     queue: "hello"
   publish:
-    addr: "localhost:5672"
+    addr: "rabbitmq:5672"
     username: "guest"
     password: "guest"
     exchange: "hello"
