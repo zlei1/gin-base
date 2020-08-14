@@ -45,6 +45,7 @@ services:
       - "8080:8080"
     volumes:
       - ./config/config.yaml:/deploy/config/config.yaml
+      - ./log:/deploy/log
     command: sh -c 'dockerize -wait tcp://postgresql:5432 && ./gin-base -c config/config.yaml'
 
   dbmigrate_app:
