@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
 	"gin-base/config"
 	"gin-base/pkg/global"
-	"gin-base/pkg/log"
+	pkg_log "gin-base/pkg/log"
 	"gin-base/pkg/rabbitmq"
 	"gin-base/routes"
 )
@@ -30,7 +30,7 @@ func main() {
 	defer rabbitmq.PublishConn.Close()
 	defer rabbitmq.PublishChannel.Close()
 
-	logConfig := log.Config{
+	logConfig := pkg_log.Config{
 		Writers:    viper.GetString("log.writers"),
 		Level:      viper.GetString("log.level"),
 		File:       viper.GetString("log.file"),
@@ -40,9 +40,9 @@ func main() {
 		MaxBackups: viper.GetInt("log.max_backups"),
 		MaxAge:     viper.GetInt("log.max_age"),
 	}
-	err := log.New(&logConfig, log.InstanceZapLogger)
+	err := pkg_log.New(&logConfig, pkg_log.InstanceZapLogger)
 	if err != nil {
-		fmt.Printf("setup log err: %v", err)
+		log.Printf("%s: %v", "Log Init Failed", err)
 	}
 
 	router := routes.Setup()

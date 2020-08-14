@@ -2,7 +2,7 @@ package redis
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
@@ -22,12 +22,12 @@ func Setup() *redis.Client {
 		PoolSize: viper.GetInt("redis.pool_size"),
 	})
 
-	fmt.Println("redis addr:", viper.GetString("redis.addr"))
-
 	_, err := rdb.Ping(Ctx).Result()
 	if err != nil {
-		panic(err)
+		log.Fatal("%s: %v", "Redis Ping Failed", err)
 	}
+
+	log.Println("Redis Connect Succeed")
 
 	Client = rdb
 

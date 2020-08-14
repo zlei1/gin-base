@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -21,8 +22,10 @@ func Setup() *gorm.DB {
 
 	db, err := gorm.Open("postgres", _config)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal("%s: %v", "Postgresql Open Failed", err)
 	}
+
+	log.Println("Postgresql Connect Succeed")
 
 	dbConfig(db)
 

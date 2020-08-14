@@ -1,7 +1,7 @@
 package config
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
@@ -76,13 +76,13 @@ func (f *ConfigFile) read() *Config {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(err)
+		log.Fatalf("%s: %v", "Config Read Failed", err)
 	}
 
 	config := new(Config)
 	err = viper.Unmarshal(&config)
 	if err != nil {
-		panic(err)
+		log.Fatalf("%s: %v", "Config Unmarshal Failed", err)
 	}
 
 	return config
@@ -91,6 +91,6 @@ func (f *ConfigFile) read() *Config {
 func (f *ConfigFile) watch() {
 	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
-		fmt.Println("Config file changed:", e.Name)
+		log.Printf("Config file changed: %s", e.Name)
 	})
 }

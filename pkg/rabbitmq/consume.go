@@ -41,6 +41,6 @@ func MqConsume() {
 		}
 	}()
 
-	log.Printf("MqConsume Waiting for messages. To exit press CTRL+C")
+	log.Printf("MqConsume Waiting for messages...")
 	<-forever
 }

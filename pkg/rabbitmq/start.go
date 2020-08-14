@@ -66,7 +66,7 @@ func ConsumeConnect() {
 do:
 	ConsumeConn, err = amqp.Dial(rabbitmqUrl)
 	if err != nil {
-		log.Println("%s: %v", "ConsumeConnect Failed to connect to RabbitMQ", err)
+		log.Printf("%s: %v", "ConsumeConnect Failed to connect to RabbitMQ", err)
 		time.Sleep(3 * time.Second)
 		goto do
 	}
@@ -134,13 +134,13 @@ func PublishConnect() {
 do:
 	PublishConn, err = amqp.Dial(rabbitmqUrl)
 	if err != nil {
-		log.Println("%s: %s", "PublishConnect Failed to connect to RabbitMQ", err)
+		log.Printf("%s: %v", "PublishConnect Failed to connect to RabbitMQ", err)
 		time.Sleep(3 * time.Second)
 		goto do
 	}
 
 	PublishChannel, err = PublishConn.Channel()
 	if err != nil {
-		log.Fatalf("%s: %s", "PublishConnect Failed to open a channel", err)
+		log.Fatalf("%s: %v", "PublishConnect Failed to open a channel", err)
 	}
 }
