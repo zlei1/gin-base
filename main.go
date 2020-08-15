@@ -10,6 +10,7 @@ import (
 	"gin-base/pkg/global"
 	pkg_log "gin-base/pkg/log"
 	"gin-base/pkg/rabbitmq"
+	"gin-base/pkg/schedule"
 	"gin-base/routes"
 )
 
@@ -29,6 +30,8 @@ func main() {
 	defer rabbitmq.ConsumeChannel.Close()
 	defer rabbitmq.PublishConn.Close()
 	defer rabbitmq.PublishChannel.Close()
+
+	schedule.Init()
 
 	logConfig := pkg_log.Config{
 		Writers:    viper.GetString("log.writers"),
