@@ -19,8 +19,13 @@ func GetPhoneVerifyCode(c *gin.Context) {
 	var param request.PhoneVerifyCodeRequest
 	_ = c.ShouldBindJSON(&param)
 
-	_, err := vcode_service.GetVcode(param.Phone)
+	vcode, err := vcode_service.GetVcode(param.Phone)
 	if err != nil {
+		helpers.SendResponse(c, err, nil)
+		return
+	}
+
+	if vcode != "" {
 		helpers.SendResponse(c, e.VcodeGetfrequent, nil)
 		return
 	}

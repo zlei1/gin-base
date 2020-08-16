@@ -6,7 +6,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"gin-base/pkg/e"
 	"gin-base/pkg/redis"
 	"gin-base/pkg/utils"
 )
@@ -47,9 +46,9 @@ func GetVcode(phone string) (string, error) {
 
 	vcode, err := redis.Client.Get(redis.Ctx, key).Result()
 	if err == redis.Nil {
-		return vcodeDefaultValue, e.RedisKeyNotExist
+		return "", nil
 	} else if err != nil {
-		return vcodeDefaultValue, errors.Wrap(err, "redis get key error")
+		return "", errors.Wrap(err, "redis get key error")
 	}
 
 	return vcode, nil
