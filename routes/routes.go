@@ -16,6 +16,7 @@ func Setup() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middleware.RequestLog())
+	r.Use(middleware.Cors())
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
