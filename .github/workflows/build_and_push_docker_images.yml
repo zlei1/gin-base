@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  build:
+  build1:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +22,14 @@ jobs:
           repository: 18379183453/ginbase
           tags: latest
           dockerfile: ./docker/base/Dockerfile
+
+  build2:
+    name: Build2
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Build and push ginbase-dbmigrate Docker images
         uses: docker/build-push-action@v1
