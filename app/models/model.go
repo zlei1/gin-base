@@ -22,7 +22,7 @@ func Setup() *gorm.DB {
 
 	db, err := gorm.Open("postgres", _config)
 	if err != nil {
-		log.Fatal("%s: %v", "Postgresql Open Failed", err)
+		log.Fatalf("%s: %v", "Postgresql Open Failed", err)
 	}
 
 	log.Println("Postgresql Connect Succeed")

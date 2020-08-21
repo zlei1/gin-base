@@ -3,6 +3,7 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/jinzhu/gorm"
 
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
@@ -22,7 +23,7 @@ var validate = validator.New()
 // @Router /api/admin/sessions [post]
 func Login(c *gin.Context) {
 	var req = request.AdminLoginRequest{}
-	_ = c.ShouldBindJSON(&req)
+	_ = c.Bind(&req)
 
 	err := validate.Struct(&req)
 	if err != nil {
@@ -32,8 +33,13 @@ func Login(c *gin.Context) {
 
 	admin, err := admin_service.AdminLogin(&req)
 	if err != nil {
-		helpers.SendResponse(c, e.AdminLoginError, nil)
-		return
+		if gorm.IsRecordNotFoundError(err) {
+			helpers.SendResponse(c, e.AdminLoginError, nil)
+			return
+		} else {
+			helpers.SendResponse(c, err, nil)
+			return
+		}
 	}
 
 	token, err := admin.IssueToken()

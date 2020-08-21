@@ -22,7 +22,7 @@ var (
 	TokenInvalid     = &E{Code: 40010, Message: "token invalid"}
 	TokenNull        = &E{Code: 40011, Message: "need auth token"}
 
-	AdminLoginError    = &E{Code: 40013, Message: "admin login error"}
+	AdminLoginError    = &E{Code: 40013, Message: "name or password invalid"}
 	CaptchaInvalid     = &E{Code: 40014, Message: "captcha invalid"}
 	UserLoginError     = &E{Code: 40013, Message: "user login error"}
 	GetIndexAdminError = &E{Code: 40015, Message: "get admin items error"}

@@ -4,12 +4,14 @@ import (
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
 	"gin-base/app/models"
+	"gin-base/pkg/sign"
 )
 
 // 管理员登入
 func AdminLogin(req *request.AdminLoginRequest) (admin *models.Admin, err error) {
 	var a models.Admin
 
+	req.Password = sign.Md5([]byte(req.Password))
 	err = models.DB.Where("phone = ? AND encrypted_password = ?", req.Phone, req.Password).First(&a).Error
 
 	return &a, err
