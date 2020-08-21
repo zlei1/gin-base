@@ -50,7 +50,22 @@ func ShowAdmin(c *gin.Context) {
 // @Success 200 {string} json "{"code":200,"message":"ok","data":{}}"
 // @Router /api/admin/admins [post]
 func CreateAdmin(c *gin.Context) {
-	helpers.SendResponse(c, nil, nil)
+	var req request.CreateAdminRequest
+	_ = c.Bind(&req)
+
+	err := validate.Struct(&req)
+	if err != nil {
+		helpers.SendResponse(c, err, nil)
+		return
+	}
+
+	_, err = services.AdminCreate(&req)
+	if err != nil {
+		helpers.SendResponse(c, err, nil)
+		return
+	}
+
+	helpers.SendResponse(c, e.Ok, nil)
 }
 
 // @Summary 修改管理员

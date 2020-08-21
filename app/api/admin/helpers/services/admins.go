@@ -47,3 +47,19 @@ func GetIndexAdmin(req *request.IndexAdminRequest) (list interface{}, total int,
 
 	return data, total, err
 }
+
+// 创建管理员
+func AdminCreate(req *request.CreateAdminRequest) (admin *models.Admin, err error) {
+	var a models.Admin
+
+	password := sign.Md5([]byte(req.Phone))
+	a = models.Admin{
+		Name:              req.Name,
+		Phone:             req.Phone,
+		EncryptedPassword: password,
+	}
+
+	err = models.DB.Create(&a).Error
+
+	return &a, err
+}

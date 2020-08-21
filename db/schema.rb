@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 2020_07_29_023820) do
   enable_extension "plpgsql"
 
   create_table "admins", comment: "管理员", force: :cascade do |t|
-    t.string "code", null: false, comment: "编号"
     t.string "name", null: false, comment: "姓名"
     t.string "phone", null: false, comment: "手机号"
     t.string "encrypted_password", null: false, comment: "密码"
@@ -27,12 +26,10 @@ ActiveRecord::Schema.define(version: 2020_07_29_023820) do
     t.integer "status", default: 0, comment: "状态"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["code"], name: "index_admins_on_code", unique: true
     t.index ["phone"], name: "index_admins_on_phone", unique: true
   end
 
   create_table "users", comment: "用户", force: :cascade do |t|
-    t.string "code", null: false, comment: "编号"
     t.string "name", null: false, comment: "姓名"
     t.string "phone", null: false, comment: "手机号"
     t.string "encrypted_password", null: false, comment: "密码"
@@ -43,7 +40,6 @@ ActiveRecord::Schema.define(version: 2020_07_29_023820) do
     t.integer "status", default: 0, comment: "状态"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["code"], name: "index_users_on_code", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
   end
 
