@@ -19,6 +19,7 @@ func Setup() *gin.Engine {
 
 	r.Use(gin.Recovery())
 
+	r.Use(middleware.RequestId())
 	r.Use(middleware.RequestLog())
 	r.Use(middleware.Cors())
 

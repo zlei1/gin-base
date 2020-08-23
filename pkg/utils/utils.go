@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	tnet "github.com/toolkits/net"
 )
 
@@ -48,4 +49,9 @@ func GetLocalIP() string {
 		}
 	})
 	return clientIP
+}
+
+func GenUuid() string {
+	u, _ := uuid.NewRandom()
+	return u.String()
 }
