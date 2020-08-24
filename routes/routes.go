@@ -3,25 +3,27 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 
 	admin_api "gin-base/app/api/admin"
 	client_api "gin-base/app/api/client"
 	common_api "gin-base/app/api/common"
 	_ "gin-base/docs"
+	"gin-base/pkg/websocket"
 	"gin-base/routes/middleware"
-	"github.com/swaggo/gin-swagger"
 )
 
 func Setup() *gin.Engine {
 	r := gin.New()
 
 	r.Use(gin.Logger())
-
 	r.Use(gin.Recovery())
 
 	r.Use(middleware.RequestId())
 	r.Use(middleware.RequestLog())
 	r.Use(middleware.Cors())
+
+	r.GET("/ws", websocket.Serve)
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
