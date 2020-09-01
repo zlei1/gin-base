@@ -23,11 +23,16 @@ func Setup() *gin.Engine {
 	r.Use(middleware.RequestLog())
 	r.Use(middleware.Cors())
 
-	r.GET("/ws", websocket.Serve)
-
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
+
+	go websocket.WsHub.Run()
+	// websocket
+	ws := r.Group("/ws")
+	{
+		ws.GET("/:channel", websocket.ClientConnect)
+	}
 
 	auth := r.Group("")
 	auth.Use(middleware.Auth())
