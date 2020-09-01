@@ -28,6 +28,9 @@ func Setup() *gin.Engine {
 	})
 
 	go websocket.WsHub.Run()
+	go websocket.WsHub.SendToClientService()
+	go websocket.WsHub.SendToGroupService()
+	go websocket.WsHub.SendToAllService()
 	// websocket
 	ws := r.Group("/ws")
 	{

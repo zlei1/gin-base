@@ -57,7 +57,7 @@ func (c *Client) Write() {
 
 			log.Printf("ws client [%s] write message: [%s]", c.Id, string(message))
 
-			err := c.Conn.WriteMessage(websocket.BinaryMessage, message)
+			err := c.Conn.WriteMessage(websocket.TextMessage, message)
 			if err != nil {
 				log.Printf("ws client [%s] write message error: %s", c.Id, err)
 			}
