@@ -1,4 +1,4 @@
-app:
+project:
   name: ginbase
   run_mode: debug
   port: :8080

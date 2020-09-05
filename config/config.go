@@ -12,46 +12,47 @@ type ConfigFile struct {
 }
 
 type Config struct {
-	App   AppConfig
-	Log   LogConfig
-	Pgsql PgsqlConfig
-	Redis RedisConfig
+	Project ProjectConfig `yaml:"project"`
+	Log     LogConfig     `yaml:"log"`
+	Pgsql   PgsqlConfig   `yaml:"pgsql"`
+	Redis   RedisConfig   `yaml:"redis"`
 }
 
-type AppConfig struct {
-	Name    string
-	RunMode string
-	Port    string
-	Host    string
-	Secret  string
+type ProjectConfig struct {
+	Name    string `yaml:"name"`
+	RunMode string `yaml:"run_mode"`
+	Port    string `yaml:"port"`
+	Host    string `yaml:"host"`
+	Secret  string `yaml:"secret"`
 }
 
 type LogConfig struct {
-	Writers    string
-	File       string
-	WarnFile   string
-	ErrorFile  string
-	MaxSize    int
-	MaxBackups int
-	MaxAge     int
+	Writers    string `yaml:"writers"`
+	Level      string `yaml:"level"`
+	File       string `yaml:"file"`
+	WarnFile   string `yaml:"warn_file"`
+	ErrorFile  string `yaml:"error_file"`
+	MaxSize    int    `yaml:"max_size"`
+	MaxBackups int    `yaml:"max_backups"`
+	MaxAge     int    `yaml:"max_age"`
 }
 
 type PgsqlConfig struct {
-	Host     string
-	Database string
-	Username string
-	Password string
-	Port     string
+	Host     string `yaml:"host"`
+	Database string `yaml:"database"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	Port     string `yaml:"port"`
 }
 
 type RedisConfig struct {
-	Addr         string
-	Password     string
-	Db           int
-	DialTimeout  int
-	ReadTimeout  int
-	WriteTimeout int
-	PoolSize     int
+	Addr         string `yaml:"addr"`
+	Password     string `yaml:"password"`
+	Db           int    `yaml:"db"`
+	DialTimeout  int    `yaml:"dial_timeout"`
+	ReadTimeout  int    `yaml:"read_timeout"`
+	WriteTimeout int    `yaml:"write_timeout"`
+	PoolSize     int    `yaml:"pool_size"`
 }
 
 func Setup(cfgPath string) *Config {

@@ -28,13 +28,17 @@ type Application struct {
 func Setup(cfg *config.Config) *Application {
 	app := new(Application)
 
+	app.Conf = cfg
+
 	app.DB = models.Setup()
 
 	app.RedisClient = pkg_redis.Setup()
 
-	if viper.GetString("run_mode") == ModeDebug {
+	if viper.GetString("project.run_mode") == ModeDebug {
 		app.Debug = true
 	}
+
+	App = app
 
 	return app
 }

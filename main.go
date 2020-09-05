@@ -33,7 +33,7 @@ func main() {
 	defer app.DB.Close()
 
 	gin.SetMode(global.ModeRelease)
-	if viper.GetString("app.run_mode") == global.ModeDebug {
+	if viper.GetString("project.run_mode") == global.ModeDebug {
 		gin.SetMode(global.ModeDebug)
 		app.DB.Debug()
 	}
