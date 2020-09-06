@@ -1,9 +1,12 @@
 package rabbitmq
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/spf13/viper"
+
+	"gin-base/app/workers"
 )
 
 func MqConsume() {
@@ -37,6 +40,12 @@ func MqConsume() {
 	go func() {
 		for msg := range msgs {
 			log.Printf("MqConsume Received a message: %s", msg.Body)
+
+			payload := make(map[string]interface{})
+			json.Unmarshal(msg.Body, &payload)
+
+			workers.Assign(payload)
+
 			msg.Ack(false)
 		}
 	}()

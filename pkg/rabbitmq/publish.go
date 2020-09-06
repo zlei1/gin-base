@@ -1,13 +1,19 @@
 package rabbitmq
 
 import (
+	"encoding/json"
+
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
 
 	"gin-base/pkg/log"
 )
 
-func MqPublish(body string) {
+type Message struct {
+	Payload interface{} `json:"payload"`
+}
+
+func MqPublish(body *Message) {
 	if PublishChannel == nil {
 		PublishStart()
 	}
@@ -15,9 +21,10 @@ func MqPublish(body string) {
 	exchange := viper.GetString("ampq.publish.exchange")
 	routingKey := viper.GetString("ampq.publish.routingKey")
 
+	payload, _ := json.Marshal(body.Payload)
 	err := PublishChannel.Publish(exchange, routingKey, false, false, amqp.Publishing{
-		ContentType: "text/plain",
-		Body:        []byte(body),
+		ContentType: "application/json",
+		Body:        payload,
 	})
 
 	if err != nil {
