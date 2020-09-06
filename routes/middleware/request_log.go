@@ -53,7 +53,8 @@ func RequestLog() gin.HandlerFunc {
 		execTime := reqEndAt.Sub(reqStartAt)
 
 		log.Infof(
-			"exec time: %s | req ip: %s | method: %s | path: %s | request: %s | response: %s",
+			"req id: %s | exec time: %s | req ip: %s | method: %s | path: %s | request: %s | response: %s",
+			c.MustGet("RequestId").(string),
 			execTime,
 			reqIp,
 			reqMethod,

@@ -18,6 +18,7 @@ func Exception() gin.HandlerFunc {
 		defer func() {
 			if err := recover(); err != nil {
 				message := "----------------------------------\n"
+				message += fmt.Sprintf("*RequestId:* %s\n", c.MustGet("RequestId").(string))
 				message += fmt.Sprintf("*Link:* %s%s\n", c.Request.Host, c.Request.URL)
 				message += fmt.Sprintf("*Project:* %s\n", App.Conf.Project.Name)
 				message += fmt.Sprintf("*Environment:* %s\n", App.Conf.Project.RunMode)
