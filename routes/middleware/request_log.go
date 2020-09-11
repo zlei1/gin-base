@@ -59,7 +59,7 @@ func RequestLog() gin.HandlerFunc {
 			reqIp,
 			reqMethod,
 			reqPath,
-			c.Request.Body,
+			string(bodyBytes),
 			lWriter.body.Bytes(),
 		)
 	}
