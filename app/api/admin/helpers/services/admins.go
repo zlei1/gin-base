@@ -4,6 +4,7 @@ import (
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
 	"gin-base/app/models"
+	"gin-base/pkg/global"
 	"gin-base/pkg/sign"
 )
 
@@ -12,7 +13,7 @@ func AdminLogin(req *request.AdminLoginRequest) (admin *models.Admin, err error)
 	var a models.Admin
 
 	req.Password = sign.Md5([]byte(req.Password))
-	err = models.DB.Where("phone = ? AND encrypted_password = ?", req.Phone, req.Password).First(&a).Error
+	err = global.App.DB.Where("phone = ? AND encrypted_password = ?", req.Phone, req.Password).First(&a).Error
 
 	return &a, err
 }
@@ -30,7 +31,7 @@ func GetIndexAdmin(req *request.IndexAdminRequest) (list interface{}, total int,
 	limit := req.PerPage
 	offset := req.PerPage * (req.Page - 1)
 
-	db := models.DB.Model(&models.Admin{})
+	db := global.App.DB.Model(&models.Admin{})
 	var items []models.Admin
 
 	err = db.Count(&total).Error
@@ -59,7 +60,7 @@ func AdminCreate(req *request.CreateAdminRequest) (admin *models.Admin, err erro
 		EncryptedPassword: password,
 	}
 
-	err = models.DB.Create(&a).Error
+	err = global.App.DB.Create(&a).Error
 
 	return &a, err
 }

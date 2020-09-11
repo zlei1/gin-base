@@ -13,7 +13,7 @@ import (
 	"gin-base/routes/middleware"
 )
 
-func Setup() *gin.Engine {
+func Perform() *gin.Engine {
 	r := gin.New()
 
 	r.Use(gin.Logger())

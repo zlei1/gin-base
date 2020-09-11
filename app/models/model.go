@@ -9,9 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var DB *gorm.DB
-
-func Setup() *gorm.DB {
+func Perform() *gorm.DB {
 	_config := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
 		viper.GetString("pgsql.host"),
 		viper.GetString("pgsql.port"),
@@ -25,11 +23,7 @@ func Setup() *gorm.DB {
 		log.Fatalf("%s: %v", "Postgresql Open Failed", err)
 	}
 
-	log.Println("Postgresql Connect Succeed")
-
 	dbConfig(db)
-
-	DB = db
 
 	return db
 }

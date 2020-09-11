@@ -7,7 +7,7 @@ import (
 
 	"gin-base/app/models"
 	"gin-base/config"
-	pkg_redis "gin-base/pkg/redis"
+	dbRedis "gin-base/pkg/redis"
 )
 
 const (
@@ -16,7 +16,10 @@ const (
 	ModeTest    string = "test"
 )
 
-var App *Application
+var (
+	App            *Application
+	RedisClientNil = redis.Nil
+)
 
 type Application struct {
 	Conf        *config.Config
@@ -25,14 +28,14 @@ type Application struct {
 	Debug       bool
 }
 
-func Setup(cfg *config.Config) *Application {
+func Perform(cfg *config.Config) *Application {
 	app := new(Application)
 
 	app.Conf = cfg
 
-	app.DB = models.Setup()
+	app.DB = models.Perform()
 
-	app.RedisClient = pkg_redis.Setup()
+	app.RedisClient = dbRedis.Perform()
 
 	if viper.GetString("project.run_mode") == ModeDebug {
 		app.Debug = true

@@ -6,10 +6,10 @@ import (
 	"strings"
 
 	"github.com/natefinch/lumberjack"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
+	"gin-base/pkg/global"
 	"gin-base/pkg/utils"
 )
 
@@ -30,7 +30,7 @@ func newZap(cfg *Config) (Logger, error) {
 
 	option := zap.Fields(
 		zap.String("ip", utils.GetLocalIP()),
-		zap.String("app", viper.GetString("app.name")),
+		zap.String("app", global.App.Conf.Project.Name),
 	)
 	options = append(options, option)
 
@@ -149,7 +149,7 @@ func getJSONEncoder() zapcore.Encoder {
 		LevelKey:       "level",
 		TimeKey:        "time",
 		NameKey:        "app",
-		CallerKey:      "file",
+		CallerKey:      "line",
 		StacktraceKey:  "trace",
 		EncodeTime:     zapcore.ISO8601TimeEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,

@@ -55,7 +55,7 @@ type RedisConfig struct {
 	PoolSize     int    `yaml:"pool_size"`
 }
 
-func Setup(cfgPath string) *Config {
+func Perform(cfgPath string) *Config {
 	f := ConfigFile{
 		Name: cfgPath,
 	}

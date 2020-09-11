@@ -16,7 +16,7 @@ var (
 	PublishChannel *amqp.Channel
 )
 
-func Setup() {
+func Perform() {
 	go ConsumeStart()
 	go PublishStart()
 }

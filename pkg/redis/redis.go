@@ -9,12 +9,10 @@ import (
 )
 
 var (
-	Ctx    = context.Background()
-	Client *redis.Client
-	Nil    = redis.Nil
+	Ctx = context.Background()
 )
 
-func Setup() *redis.Client {
+func Perform() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     viper.GetString("redis.addr"),
 		Password: viper.GetString("redis.password"),
@@ -24,12 +22,8 @@ func Setup() *redis.Client {
 
 	_, err := rdb.Ping(Ctx).Result()
 	if err != nil {
-		log.Fatal("%s: %v", "Redis Ping Failed", err)
+		log.Fatalf("%s: %v", "Redis Ping Failed", err)
 	}
-
-	log.Println("Redis Connect Succeed")
-
-	Client = rdb
 
 	return rdb
 }

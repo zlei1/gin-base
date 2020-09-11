@@ -28,8 +28,8 @@ var (
 func main() {
 	pflag.Parse()
 
-	conf := config.Setup(*cfgPath)
-	app := global.Setup(conf)
+	conf := config.Perform(*cfgPath)
+	app := global.Perform(conf)
 	defer app.DB.Close()
 
 	gin.SetMode(global.ModeRelease)
@@ -38,7 +38,7 @@ func main() {
 		app.DB.Debug()
 	}
 
-	rabbitmq.Setup()
+	rabbitmq.Perform()
 
 	schedule.Init()
 
@@ -57,7 +57,7 @@ func main() {
 		log.Printf("%s: %v", "Log Init Failed", err)
 	}
 
-	router := routes.Setup()
+	router := routes.Perform()
 
 	srv := &http.Server{
 		Addr:    ":8080",
