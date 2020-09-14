@@ -16,6 +16,7 @@ type Config struct {
 	Log     LogConfig     `yaml:"log"`
 	Pgsql   PgsqlConfig   `yaml:"pgsql"`
 	Redis   RedisConfig   `yaml:"redis"`
+	Ampq    AmpqConfig    `yaml:"ampq"`
 }
 
 type ProjectConfig struct {
@@ -53,6 +54,29 @@ type RedisConfig struct {
 	ReadTimeout  int    `yaml:"read_timeout"`
 	WriteTimeout int    `yaml:"write_timeout"`
 	PoolSize     int    `yaml:"pool_size"`
+}
+
+type AmpqConfig struct {
+	Consume AmpqConsume `yaml:"consume"`
+	Publish AmpqPublish `yaml:"publish"`
+}
+
+type AmpqConsume struct {
+	Addr       string `yaml:"addr"`
+	Username   string `yaml:"username"`
+	Password   string `yaml:"password"`
+	Exchage    string `yaml:"exchage"`
+	RoutingKey string `yaml:"routing_key"`
+	Queue      string `yaml:"queue"`
+}
+
+type AmpqPublish struct {
+	Addr       string `yaml:"addr"`
+	Username   string `yaml:"username"`
+	Password   string `yaml:"password"`
+	Exchage    string `yaml:"exchage"`
+	RoutingKey string `yaml:"routing_key"`
+	Queue      string `yaml:"queue"`
 }
 
 func Perform(cfgPath string) *Config {
