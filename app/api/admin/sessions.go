@@ -7,7 +7,7 @@ import (
 
 	"gin-base/app/api/admin/helpers/request"
 	"gin-base/app/api/admin/helpers/response"
-	admin_service "gin-base/app/api/admin/helpers/services"
+	"gin-base/app/api/admin/helpers/services"
 	"gin-base/app/api/common/helpers"
 	"gin-base/pkg/e"
 )
@@ -31,7 +31,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	admin, err := admin_service.AdminLogin(&req)
+	admin, err := services.AdminSvc.LoginAdminFind(&req)
 	if err != nil {
 		if gorm.IsRecordNotFoundError(err) {
 			helpers.SendResponse(c, e.AdminLoginError, nil)

@@ -8,7 +8,6 @@ import (
 
 type Admin struct {
 	ID                uint64
-	Code              string    `gorm:"column:code" gorm:"comment:'编号'"`
 	Name              string    `gorm:"column:name" gorm:"comment:'姓名'"`
 	Phone             string    `gorm:"column:phone" gorm:"comment:'手机号'"`
 	EncryptedPassword string    `gorm:"column:encrypted_password" gorm:"comment:'密码'"`

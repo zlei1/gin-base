@@ -4,6 +4,19 @@ info:
 paths:
   /api/admin/admins:
     get:
+      parameters:
+      - description: 页
+        in: body
+        name: page
+        required: true
+        schema:
+          type: integer
+      - description: 页数
+        in: body
+        name: per_page
+        required: true
+        schema:
+          type: integer
       produces:
       - application/json
       responses:
@@ -17,6 +30,19 @@ paths:
       tags:
       - admin
     post:
+      parameters:
+      - description: 手机号
+        in: body
+        name: phone
+        required: true
+        schema:
+          type: integer
+      - description: 姓名
+        in: body
+        name: name
+        required: true
+        schema:
+          type: integer
       produces:
       - application/json
       responses:
@@ -29,7 +55,7 @@ paths:
       summary: 创建管理员
       tags:
       - admin
-  /api/admin/admins/:code:
+  /api/admin/admins/:id:
     delete:
       produces:
       - application/json
@@ -57,6 +83,19 @@ paths:
       tags:
       - admin
     put:
+      parameters:
+      - description: 手机号
+        in: body
+        name: phone
+        required: true
+        schema:
+          type: integer
+      - description: 姓名
+        in: body
+        name: name
+        required: true
+        schema:
+          type: integer
       produces:
       - application/json
       responses:

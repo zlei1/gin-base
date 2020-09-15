@@ -15,5 +15,8 @@ func InitAdmin(router *gin.Engine) {
 	auth.Use(middleware.Auth())
 
 	auth.GET("/admins", admin_api.IndexAdmin)
+	auth.GET("/admins/:id", admin_api.ShowAdmin)
 	auth.POST("/admins", admin_api.CreateAdmin)
+	auth.PUT("/admins/:id", admin_api.UpdateAdmin)
+	auth.DELETE("/admins/:id", admin_api.DeleteAdmin)
 }

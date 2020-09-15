@@ -39,6 +39,26 @@ var doc = `{
                     "admin"
                 ],
                 "summary": "查看管理员",
+                "parameters": [
+                    {
+                        "description": "页",
+                        "name": "page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "页数",
+                        "name": "per_page",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
@@ -61,6 +81,26 @@ var doc = `{
                     "admin"
                 ],
                 "summary": "创建管理员",
+                "parameters": [
+                    {
+                        "description": "手机号",
+                        "name": "phone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "姓名",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
@@ -71,7 +111,7 @@ var doc = `{
                 }
             }
         },
-        "/api/admin/admins/:code": {
+        "/api/admin/admins/:id": {
             "get": {
                 "security": [
                     {
@@ -107,6 +147,26 @@ var doc = `{
                     "admin"
                 ],
                 "summary": "修改管理员",
+                "parameters": [
+                    {
+                        "description": "手机号",
+                        "name": "phone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "姓名",
+                        "name": "name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "{\"code\":200,\"message\":\"ok\",\"data\":{}}",
