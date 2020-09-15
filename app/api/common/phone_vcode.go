@@ -6,7 +6,7 @@ import (
 
 	"gin-base/app/api/common/helpers"
 	"gin-base/app/api/common/helpers/request"
-	vcode_service "gin-base/app/services/vcode"
+	"gin-base/app/api/common/helpers/services"
 	"gin-base/app/workers"
 	"gin-base/pkg/e"
 	"gin-base/pkg/rabbitmq"
@@ -30,7 +30,7 @@ func GetPhoneVerifyCode(c *gin.Context) {
 		return
 	}
 
-	vcode, err := vcode_service.GetVcode(req.Phone)
+	vcode, err := services.PhoneVcodeSvc.GetVcode(req.Phone)
 	if err != nil {
 		helpers.SendResponse(c, err, nil)
 		return
@@ -41,7 +41,7 @@ func GetPhoneVerifyCode(c *gin.Context) {
 		return
 	}
 
-	vcode, err = vcode_service.GenVcode(req.Phone)
+	vcode, err = services.PhoneVcodeSvc.GenVcode(req.Phone)
 	if err != nil {
 		helpers.SendResponse(c, err, nil)
 		return

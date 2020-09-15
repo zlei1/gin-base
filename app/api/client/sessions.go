@@ -6,9 +6,9 @@ import (
 
 	"gin-base/app/api/client/helpers/request"
 	"gin-base/app/api/client/helpers/response"
-	user_service "gin-base/app/api/client/helpers/services"
+	"gin-base/app/api/client/helpers/services"
 	"gin-base/app/api/common/helpers"
-	vocde_service "gin-base/app/services/vcode"
+	common_services "gin-base/app/api/common/helpers/services"
 	"gin-base/pkg/e"
 )
 
@@ -31,12 +31,12 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if checkVcode := vocde_service.CheckVcode(req.Phone, req.Vcode); checkVcode {
+	if checkVcode := common_services.PhoneVcodeSvc.CheckVcode(req.Phone, req.Vcode); checkVcode {
 		helpers.SendResponse(c, e.CaptchaInvalid, nil)
 		return
 	}
 
-	user, err := user_service.UserLogin(&req)
+	user, err := services.UserLogin(&req)
 	if err != nil {
 		helpers.SendResponse(c, e.UserLoginError, nil)
 		return

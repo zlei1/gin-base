@@ -1,4 +1,4 @@
-package vcode
+package services
 
 import (
 	"context"
@@ -11,13 +11,27 @@ import (
 	"gin-base/pkg/utils"
 )
 
+type PhoneVcodeService interface {
+	GenVcode(phone string) (string, error)
+	CheckVcode(phone, vcode string) bool
+	GetVcode(phone string) (string, error)
+}
+
+var PhoneVcodeSvc = NewPhoneVcodeService()
+
+type phoneVcodeService struct{}
+
+func NewPhoneVcodeService() PhoneVcodeService {
+	return &phoneVcodeService{}
+}
+
 const (
 	vcodeRedisKey     = "gin-base:vcode:%s"
 	vcodeDefaultValue = ""
 	redisKeyTimeout   = 60 * time.Second
 )
 
-func GenVcode(phone string) (string, error) {
+func (server *phoneVcodeService) GenVcode(phone string) (string, error) {
 	vcode := utils.GenPhoneCode()
 
 	key := fmt.Sprintf(vcodeRedisKey, phone)
@@ -29,8 +43,8 @@ func GenVcode(phone string) (string, error) {
 	return vcode, nil
 }
 
-func CheckVcode(phone, vcode string) bool {
-	oldVcode, err := GetVcode(phone)
+func (server *phoneVcodeService) CheckVcode(phone, vcode string) bool {
+	oldVcode, err := server.GetVcode(phone)
 	if err != nil {
 		return false
 	}
@@ -42,7 +56,7 @@ func CheckVcode(phone, vcode string) bool {
 	return true
 }
 
-func GetVcode(phone string) (string, error) {
+func (server *phoneVcodeService) GetVcode(phone string) (string, error) {
 	key := fmt.Sprintf(vcodeRedisKey, phone)
 
 	vcode, err := global.App.RedisClient.Get(context.Background(), key).Result()
