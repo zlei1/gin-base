@@ -39,11 +39,11 @@ func NewHub() *Hub {
 		Group:            make(map[string]map[string]*Client),
 		GroupCount:       0,
 		ClientCount:      0,
-		Register:         make(chan *Client),
-		UnRegister:       make(chan *Client),
-		Message:          make(chan *MessageData),
-		GroupMessage:     make(chan *GroupMessageData),
-		BroadcastMessage: make(chan *BroadcastMessageData),
+		Register:         make(chan *Client, 1024),
+		UnRegister:       make(chan *Client, 1024),
+		Message:          make(chan *MessageData, 1024),
+		GroupMessage:     make(chan *GroupMessageData, 1024),
+		BroadcastMessage: make(chan *BroadcastMessageData, 1024),
 	}
 }
 
